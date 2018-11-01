@@ -9,9 +9,9 @@ export function getInitialData () {
 		_getUsers(),
 		_getDecks(),
 		_getFlashcards(),
-	]).then(([users, flashcards, decks]) => ({
+	]).then(([users, decks, flashcards]) => ({
 		users,
-		flashcards,
 		decks,
+		flashcards,
 	}))
 }
