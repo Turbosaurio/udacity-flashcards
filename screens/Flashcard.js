@@ -10,9 +10,12 @@ import {
 	TouchableOpacity
 } from 'react-native'
 
-import {createSwitchNavigator, NavigationActions} from 'react-navigation'
+import {createSwitchNavigator} from 'react-navigation'
 
 import {connect} from 'react-redux'
+
+
+
 
 class Flashcard extends Component{
 
@@ -46,28 +49,22 @@ class Flashcard extends Component{
 		
 		const f = flashList[currentFlash]
 
-		const FlashcardStack = createSwitchNavigator ({
-			Question:{
-				screen: _ => 
-					<Question 
-						data={flashcards[f]}
-						action={this._handleAnswerQuestion}
-					/>,
-			},
-			Answer:{
-				screen: _ =>
-					<Answer
-						data={flashcards[f]}
-						action={this._handleNextQuestion}
-					/>,
-			},
-		})
+		const FlashcardStack = createSwitchNavigator (
+			{
+				Question:{
+					title: 'front',
+					screen: Question
+				},
+				Answer:{
+					title: 'back',
+					screen: Answer
+				},
+			},{
+				navigationOptions:{
 
-		
-
-		
-
-
+				}
+			}
+		)
 		if(deck) {
 			return(
 				<View>
@@ -100,6 +97,7 @@ const mapStateToProps = ({flashcards}) => {
 		flashcards
 	}
 }
+
 // const Flashcard = createSwitchNavigator({
 // 	Front: FlashcardFront,
 // 	Back: FlashcardBack,

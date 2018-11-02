@@ -102,14 +102,17 @@ const decks = {
 const users = {
 	don_draper: {
 		name: 'Don Draper',
+		currentDeck: '74hqpjojd02nyto6ycmom',
 		flashcards: ['74hqpjojd02nyto6ycmom'],
 	},
 	peter_campbell:{
 		name: 'Peter Campbell',
+		currentDeck: '74hqpjojd02nyto6ycmom',
 		flashcards: ['an93r0fgbgsp8z8fh8yrh'],
 	},
 	roger_sterling:{
 		name: 'Roger Sterling',
+		currentDeck: '74hqpjojd02nyto6ycmom',
 		flashcards: ['bv3c9tshsnk2m15suvf97y'],
 	},
 }

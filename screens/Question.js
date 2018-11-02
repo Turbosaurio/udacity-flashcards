@@ -6,39 +6,35 @@ import {
 	TouchableOpacity
 } from 'react-native'
 
-function Question(){
-	
+import {connect} from 'react-redux'
+
+function Question(props){
+	const {users, deck, flashcards, navigation} = props
+
+	 const _handleNavigation = () =>{
+	 	navigation.navigate('Answer')
+	 }
+
 	return (
 		<View>
-			<Text style={styles.h1}>Question</Text>
+			<TouchableOpacity
+				onPress={ _ => {
+					_handleNavigation()
+
+				}}
+				>
+				<Text>Go to answer</Text>
+			</TouchableOpacity>
 		</View>
 	)
 }
 
 
-export default function Question({data, action, navigation}){
-	const {text, options, answers} = data.question
-	console.log('cacacaac', navigation)
 
-	const _handleClick = () =>{
-		action()
+const mapStateToProps = ({users, deck, flashcards}) =>{
+	return{
+		users, deck, flashcards
 	}
-
-	return (
-		<View>
-			<Text style={styles.h1}>{data.name}</Text>
-			<Text style={styles.h3}>{text}</Text>
-			<View style={styles.buttonRow}>
-				{
-					Object.keys(options).map( i => (
-						<View key={i}>
-							<TouchableOpacity style={styles.blueButton} onPress={_handleClick} value={options[i]}>
-								<Text style={styles.buttonText}>{options[i]}</Text>
-							</TouchableOpacity>
-						</View>
-					))
-				}
-			</View>
-		</View>
-	)
 }
+
+export default connect(mapStateToProps)(Question)
