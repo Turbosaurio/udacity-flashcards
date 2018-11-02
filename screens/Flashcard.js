@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {styles} from '../styles/stylingus'
 import Question from './Question'
+import Answer from './Answer'
 
 import {
 	ScrollView,
@@ -8,6 +9,8 @@ import {
 	Text,
 	TouchableOpacity
 } from 'react-native'
+
+import {createSwitchNavigator, NavigationActions} from 'react-navigation'
 
 import {connect} from 'react-redux'
 
@@ -17,16 +20,24 @@ class Flashcard extends Component{
 		flashList: '',
 		currentFlash : 0,
 	}
-	handleNextQuestion = _ =>{
-		//todo next question in filtered list
-		this.setState( _ => ({currentFlash: this.state.currentFlash + 1}))
+
+	_handleAnswerQuestion = _ =>{
+		// todo navigate to answer
+		console.log('caca')
 	}
+
+	_handleNextQuestion = _ =>{
+		this.setState( _ => ({currentFlash: this.state.currentFlash + 1}))
+		
+	}
+
 	componentDidMount(){
 		this.setState( state => ({
 			...state,
 
 		}))
 	}
+
 	render(){
 		const {deck, flashcards} = this.props
 		const {currentFlash} = this.state
@@ -34,11 +45,33 @@ class Flashcard extends Component{
 		const flashList = Object.keys(flashcards).filter(i => flashcards[i].deck === deck)
 		
 		const f = flashList[currentFlash]
+
+		const FlashcardStack = createSwitchNavigator ({
+			Question:{
+				screen: _ => 
+					<Question 
+						data={flashcards[f]}
+						action={this._handleAnswerQuestion}
+					/>,
+			},
+			Answer:{
+				screen: _ =>
+					<Answer
+						data={flashcards[f]}
+						action={this._handleNextQuestion}
+					/>,
+			},
+		})
+
 		
+
+		
+
+
 		if(deck) {
 			return(
 				<View>
-					<Question data={flashcards[f]} action={this.handleNextQuestion}/>
+					<FlashcardStack />
 				</View>
 			)
 		}
@@ -50,10 +83,26 @@ class Flashcard extends Component{
 		)
 	}
 }
+
+class FlashcardBack extends Component{
+	render(){
+		return(
+			<View>
+				<Text>Back</Text>
+			</View>
+		)
+	}
+}
+
+
 const mapStateToProps = ({flashcards}) => {
 	return {
 		flashcards
 	}
 }
+// const Flashcard = createSwitchNavigator({
+// 	Front: FlashcardFront,
+// 	Back: FlashcardBack,
+// })
 
 export default connect(mapStateToProps)(Flashcard)
