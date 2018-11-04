@@ -1,18 +1,21 @@
-import React from 'react';
-import { Platform } from 'react-native';
-import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+import React from 'react'
+import { Platform } from 'react-native'
+import { createStackNavigator, createBottomTabNavigator } from 'react-navigation'
 
-import TabBarIcon from '../components/TabBarIcon';
-import Decks from '../screens/Decks';
-import CreateFlashcard from '../screens/CreateFlashcard';
-// import SettingsScreen from '../screens/SettingsScreen';
+import TabBarIcon from '../components/TabBarIcon'
+import CreateFlashcard from '../screens/CreateFlashcard'
+// import SettingsScreen from '../screens/SettingsScreen'
 
-const DecksStack = createStackNavigator({
-  Home: Decks,
-});
+import Decks from '../screens/Decks'
+import Start from '../screens/Start'
 
-DecksStack.navigationOptions = {
-  tabBarLabel: 'Decks',
+
+const StartStack = createStackNavigator({
+  Start: Start,
+})
+
+StartStack.navigationOptions = {
+  tabBarLabel: 'Start',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -30,7 +33,7 @@ const CreateFlashcardStack = createStackNavigator({
 });
 
 CreateFlashcardStack.navigationOptions = {
-  tabBarLabel: 'Create',
+  tabBarLabel: 'Create a flashcard',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -54,7 +57,7 @@ CreateFlashcardStack.navigationOptions = {
 // };
 
 export default createBottomTabNavigator({
-  DecksStack,
+  StartStack,
   CreateFlashcardStack,
   // SettingsStack,
 });

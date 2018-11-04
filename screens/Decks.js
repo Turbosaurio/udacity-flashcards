@@ -6,6 +6,7 @@ import {handleInitialData} from '../redux/actions/shared'
 import Flashcard from './Flashcard'
 
 import {styles} from '../styles/stylingus'
+import {setUserProp} from '../redux/actions/users'
 
 import {
 	Image,
@@ -26,27 +27,23 @@ class Decks extends Component {
 	}
 
 	state = {
-		deck: '',
-		currentFlashCard: 0,
+		showFlashcard: false
 	}
 
-	handleChooseDeck = (id) =>{
-		this.setState({deck: id})
-	}
-	handleNextQuestion = () =>{
-		this.setState( state => {
-			return { currentFlashCard: state.currentFlashCard + 1}
-		})
+	_handleChooseDeck(val, user){
+		this.props._setUserProp('currentDeck', val, user)
+		this.props.navigation.navigate('Flashcard')
 	}
 
 	componentDidMount(){
-    this.props.dispatch(handleInitialData())
+		this.props._getData()
   }
 	render() {
-		const {deck, currentFlashCard} = this.state
-		const {decksList, decks, flashcards, users} = this.props
 
-		if(!decksList){
+		const {decks, flashcards, users, currentUser} = this.props
+	
+
+		if(!currentUser){
 			return <Text>Loading...</Text>
 		}
 		return (
@@ -54,38 +51,39 @@ class Decks extends Component {
 				<View style={styles.centerContainer}>
 					<View style={styles.buttonRow}>
 						{
-							decksList.map( i => {
+							Object.keys(decks).map( i => {
 								const deck = decks[i]
 								return (
 									<View key={i}>
 										<TouchableOpacity
 											style={styles.redButton}
-											onPress={ _ => this.handleChooseDeck(deck.id) }
-										><Text style={styles.buttonText}>{`Go to ${deck.name}`}</Text></TouchableOpacity>
+											onPress={ _ => {
+													this._handleChooseDeck(deck.id, this.props.currentUser)
+												}
+											}
+										><Text style={styles.buttonText}>{`Go to ${deck.category}`}</Text></TouchableOpacity>
 									</View>
 								)
 							})
 						}
 					</View>
-					<Text>{JSON.stringify(this.state)}</Text>
 				</View>
-				{
-					deck
-						? <Flashcard deck={deck}/>
-						: null
-				}
 			</View>
 		);
 	}
 }
 
-const mapStateToProps = ({decks, flashcards, users}) =>{
-	return {
-		decksList: Object.keys(decks),
-		decks,
-		flashcards,
-		users
+const mapStateToProps = ({currentUser, decks, flashcards, users}) =>{
+	return {currentUser, decks, flashcards, users}
+}
+
+const mapDispatchToProps = (dispatch) => {
+	return{
+		_getData : _ => dispatch(handleInitialData()),
+		_setUserProp : (key, value, user) =>{
+			dispatch(setUserProp({key, value, user}))
+		},
 	}
 }
 
-export default connect(mapStateToProps)(Decks)
+export default connect(mapStateToProps, mapDispatchToProps)(Decks)
