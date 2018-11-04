@@ -4,6 +4,13 @@ import {receiveFlashcards} from './flashcards'
 import {receiveDecks} from './decks'
 import {receiveUsers} from './users'
 import {setCurrentUser} from './currentUser'
+import {getInitialActions} from './initialActions'
+
+const current_user = 'don_draper'
+export const initialSettings = {
+	a: 0,
+	f: 0,
+}
 
 export function handleInitialData(){
 	return dispatch => {
@@ -12,7 +19,8 @@ export function handleInitialData(){
 				dispatch(receiveFlashcards(flashcards))
 				dispatch(receiveDecks(decks))
 				dispatch(receiveUsers(users))
-				dispatch(setCurrentUser('don_draper'))
+				dispatch(getInitialActions(initialSettings))
+				dispatch(setCurrentUser(current_user))
 			})
 	}
 }
