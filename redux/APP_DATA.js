@@ -91,7 +91,6 @@ const decks = {
 const users = {
 	don_draper: {
 		name: 'Don Draper',
-		currentDeck: 'qytmbb13lm602a1blpxy9',
 		score:{
 			'qytmbb13lm602a1blpxy9':{
 				timestamp: '1540957285032',
@@ -102,12 +101,10 @@ const users = {
 	},
 	peter_campbell:{
 		name: 'Peter Campbell',
-		currentDeck: 'qytmbb13lm602a1blpxy9',
 		score: '',
 	},
 	roger_sterling:{
 		name: 'Roger Sterling',
-		currentDeck: 'qytmbb13lm602a1blpxy9',
 		score: '',
 	},
 }
@@ -134,12 +131,13 @@ export function _getDecks(){
 
 export function formatFlashcard(data){
 	const id = generateUID()
-	const {name, text, options, answer} = data
+	const {name, text, options, answer, category} = data
 	return {
 		[id] : {
 			id,
 			name,
 			answer,
+			category,
 			question: {
 				text, options
 			},

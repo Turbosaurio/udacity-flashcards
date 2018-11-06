@@ -1,15 +1,17 @@
 import React from 'react'
 import {styles} from '../styles/stylingus'
+import {connect} from 'react-redux'
+
 import {
 	View,
 	Text,
 	TouchableOpacity
 } from 'react-native'
 
-export default function Answer({navigation}){
+function Answer({navigation, initialActions, currentFlashcard, flashcards}){
 	return (
 		<View	style={styles.centerContainer}>
-			<Text style={styles.h3}>Your answer was probably right...</Text>
+		
 			<View style={styles.buttonRow}>
 					<TouchableOpacity
 						style={styles.blueButton}
@@ -23,3 +25,19 @@ export default function Answer({navigation}){
 		</View>
 	)
 }
+
+const mapStateToProps = ({initialActions, flashcards, currentUser, decks, users}) => {
+	
+	return {
+		flashcards,
+		currentFlashcard,
+		initialActions,
+	}
+}
+
+const mapDispatchToProps = dispatch => {
+	return{
+		_nextFlashcard : flashcard => console.log('todo next flashcard'),
+	}
+}
+export default connect(mapStateToProps)(Answer)

@@ -16,6 +16,7 @@ const StartStack = createStackNavigator({
 
 StartStack.navigationOptions = {
   tabBarLabel: 'Start',
+  header: null,
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -34,6 +35,7 @@ const CreateFlashcardStack = createStackNavigator({
 
 CreateFlashcardStack.navigationOptions = {
   tabBarLabel: 'Create a flashcard',
+  header: null,
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}

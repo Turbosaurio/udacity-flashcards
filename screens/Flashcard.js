@@ -22,7 +22,7 @@ export default createSwitchNavigator (
 		},
 	},{
 		navigationOptions:{
-
+			header: null,
 		}
 	}
 )

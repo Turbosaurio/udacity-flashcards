@@ -6,7 +6,7 @@ import {handleInitialData} from '../redux/actions/shared'
 import Flashcard from './Flashcard'
 
 import {styles} from '../styles/stylingus'
-import {setUserProp} from '../redux/actions/users'
+import {setCurrentDeck, setCurrentFlashcard} from '../redux/actions/initialActions'
 
 import {
 	Image,
@@ -26,39 +26,40 @@ class Decks extends Component {
 		header: null,
 	}
 
-	state = {
-		showFlashcard: false
-	}
-
-	_handleChooseDeck(val, user){
-		this.props._setUserProp('currentDeck', val, user)
-		this.props.navigation.navigate('Flashcard')
-	}
-
 	componentDidMount(){
 		this.props._getData()
   }
+
 	render() {
 
-		const {decks, flashcards, users, currentUser} = this.props
+		const {
+			decks,
+			currentUser,
+			navigation,
+			_setCurrentDeck,
+			_setCurrentFlashcard,
+		} = this.props
 	
-
 		if(!currentUser){
 			return <Text>Loading...</Text>
 		}
 		return (
 			<View>
 				<View style={styles.centerContainer}>
+					<Text style={styles.h1}>Choose a Deck</Text>
 					<View style={styles.buttonRow}>
 						{
 							Object.keys(decks).map( i => {
 								const deck = decks[i]
+								const flashcard = decks[deck.id].flashcards[0]
 								return (
 									<View key={i}>
 										<TouchableOpacity
 											style={styles.redButton}
 											onPress={ _ => {
-													this._handleChooseDeck(deck.id, this.props.currentUser)
+													_setCurrentDeck(deck.id)
+													_setCurrentFlashcard(flashcard)
+													navigation.navigate('Flashcard')
 												}
 											}
 										><Text style={styles.buttonText}>{`Go to ${deck.category}`}</Text></TouchableOpacity>
@@ -73,16 +74,15 @@ class Decks extends Component {
 	}
 }
 
-const mapStateToProps = ({currentUser, decks, flashcards, users}) =>{
-	return {currentUser, decks, flashcards, users}
+const mapStateToProps = ({currentUser, decks}) =>{
+	return {currentUser, decks}
 }
 
 const mapDispatchToProps = (dispatch) => {
 	return{
 		_getData : _ => dispatch(handleInitialData()),
-		_setUserProp : (key, value, user) =>{
-			dispatch(setUserProp({key, value, user}))
-		},
+		_setCurrentDeck : deck => dispatch(setCurrentDeck(deck)),
+		_setCurrentFlashcard: flashcard => dispatch(setCurrentFlashcard(flashcard)),
 	}
 }
 

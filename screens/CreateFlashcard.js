@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component, Fragment} from 'react'
 import {connect} from 'react-redux'
 
 import {styles} from '../styles/stylingus'
@@ -18,25 +18,36 @@ class CreateFlashcard extends Component{
 	state = {
 		name: '',
 		question: '',
+		category : '',
 		options: ['A', 'B'],
+
 		optionA: '',
 		optionB: '',
 		optionC: '',
 		optionD: '',
+
 		btnMessage: '',
 		answer: 'A',
+
+		setCategory: false,
+		defaultCategory: 'Choose',
 	}
 
 	_submitNewQuestion = () =>{
 		///todo add new question to store
-		const {name, question, btnMessage, options, answer, ...rest} = this.state
+		const {
+			setCategory, btnMessage, options, defaultCategory, ///unused
+			name, question, answer, category, ...rest
+		} = this.state
 		const data = {
 			name,
+			category,
 			text: question,
 			options: rest,
 			answer,
 		}
 		this.props.submitFlashcard(formatFlashcard(data))
+		this.props.navigation.navigate('Decks')
 	}
 
 	_displayAlert(text){
@@ -59,28 +70,73 @@ class CreateFlashcard extends Component{
 		}
 	}
 
+	showPicker = _ =>{
+		this.setState( _ => ({setCategory: true}))
+	}
+
 	render(){
 
-		const {name, question, options, btnMessage, ...rest} = this.state
+		const {
+			name, 
+			category,
+			question, 
+
+			options, 
+			btnMessage, 
+			setCategory,
+
+		} = this.state
 
 		return(
 			<View style={{padding: 25}}>
 				<Text style={styles.h1}>Create Flashcard</Text>
 				<View style={styles.box}>
 					<View style={styles.row}>
-						<Text>Flashcard name: </Text>
+						<Text>Name: </Text>
 						<TextInput
 							 onChangeText={name => this.setState({name})}
 							style={styles.textInput}
-							value={this.state.name}
+							value={name}
 						/>
 					</View>
+
 					<View style={styles.row}>
-						<Text>Flashcard question: </Text>
+						{ 
+							!setCategory 
+							?(
+								<Fragment>
+									<Text>Category: </Text>
+									<TextInput
+										 onChangeText={category => this.setState({category})}
+										style={styles.textInput}
+										value={category}
+									/>
+									<View style={{width: 50, marginLeft: 15}}>
+										<Button
+											onPress={this.showPicker}
+											style={{borderRadius: 25}}
+											title="+"
+										/>
+									</View>	
+								</Fragment>
+								) 
+							: (
+								<Picker
+									selectedValue={this.state.defaultCategory}
+									>
+									<Picker.Item disabled="true" value="Choose" label="Choose a category"/>
+									<Picker.Item value="Art" label="Art"/>
+								</Picker>
+								)
+						}
+					</View>
+
+					<View style={styles.row}>
+						<Text>Question: </Text>
 						<TextInput
 							onChangeText={question => this.setState({question})}
 							style={styles.textInput}
-							value={this.state.question}
+							value={question}
 						/>
 					</View>
 					{
@@ -102,7 +158,7 @@ class CreateFlashcard extends Component{
 						}
 						<View style={{width: 50, marginLeft: 15}}>
 							<Button
-							style={{borderRadius: 25}}
+								style={{borderRadius: 25}}
 								onPress={this._addNewOption}
 								title="+"
 							/>						

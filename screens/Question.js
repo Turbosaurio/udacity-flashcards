@@ -17,12 +17,12 @@ class Question extends Component{
 	state = {}
 
 	_handleNavigation = answer =>{
-		const {currentUser, users, decks} = this.props
-		const current = this.props.initialActions.f
-		const total = decks[users[currentUser].currentDeck].flashcards.length -1
-		console.log(current, total, answer)
-		if(current < total){
-			this.props._nextQuestion(current + 1)
+
+		const {total, initialActions} = this.props
+		const {currentFlashcard} = initialActions
+
+		if(currentFlashcard < total){
+			this.props._nextQuestion()
 			this.props.navigation.navigate('Answer')
 			if(answer){
 				this.props._correctAnswer()
@@ -33,13 +33,12 @@ class Question extends Component{
 	}
 
 	render(){
-		const {currentUser, users, decks, flashcards, initialActions} = this.props
-		const current = initialActions.f
-		const deck = decks[users[currentUser].currentDeck]
-		const flashcard = flashcards[deck.flashcards[current]]
+
+		const {flashcards, initialActions} = this.props
+		const flashcard = flashcards[initialActions.currentFlashcard]
+
 		return (
 			<View>
-				<Text>{this.state.current}</Text>
 				<Text style={styles.h1}>{flashcard.name}</Text>
 				<Text style={styles.h3}>{`${flashcard.question.text}?`}</Text>
 				<View style={styles.buttonRow}>
@@ -77,8 +76,12 @@ const mapDispatchToProps = dispatch =>{
 	}
 }
 
-const mapStateToProps = ({currentUser, users, decks, flashcards, initialActions}) =>{
-	return{currentUser, users, decks, flashcards, initialActions}
+const mapStateToProps = ({ decks, flashcards, initialActions}) =>{
+	return{
+		flashcards, 
+		initialActions,
+		total : decks[initialActions.currentDeck].flashcards.length
+	}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Question)

@@ -7,9 +7,12 @@ import {setCurrentUser} from './currentUser'
 import {getInitialActions} from './initialActions'
 
 const current_user = 'don_draper'
+
 export const initialSettings = {
-	a: 0,
-	f: 0,
+	currentDeck : '',
+	currentFlashcard : '',
+	flashcardIndex : 0,
+	correctAnswers : 0,
 }
 
 export function handleInitialData(){

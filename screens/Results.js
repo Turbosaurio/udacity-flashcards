@@ -13,7 +13,7 @@ function Results({_resetQuestions, initialActions, navigation}){
 	return(
 		<View>
 			<Text style={styles.h1}>Results</Text>
-			<Text style={styles.h3}>{`You got ${initialActions.a} answers correct.`}</Text>
+			<Text style={styles.h3}>{`You got ${initialActions.correctAnswers} answers correct.`}</Text>
 			<View style={styles.buttonRow}>
 				<TouchableOpacity
 				style={styles.redButton}
