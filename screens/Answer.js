@@ -2,22 +2,26 @@ import React from 'react'
 import {styles} from '../styles/stylingus'
 import {connect} from 'react-redux'
 
+import {goNextFlashcard} from '../redux/actions/initialActions'
+
 import {
 	View,
 	Text,
 	TouchableOpacity
 } from 'react-native'
 
-function Answer({navigation, initialActions, currentFlashcard, flashcards}){
+function Answer({navigation, correct, answer, _nextFlashcard}){
 	return (
 		<View	style={styles.centerContainer}>
 		
 			<View style={styles.buttonRow}>
+				<Text>{`Your answer was: ${answer} and it was ${correct}`}</Text>
 					<TouchableOpacity
 						style={styles.blueButton}
-						onPress={ _ =>
-							navigation.navigate('Question')
-						}
+						onPress={ _ => {
+								_nextFlashcard
+								navigation.navigate('Question')
+						}}
 					>
 						<Text style={styles.buttonText}>Next Question</Text>
 					</TouchableOpacity>
@@ -26,18 +30,19 @@ function Answer({navigation, initialActions, currentFlashcard, flashcards}){
 	)
 }
 
-const mapStateToProps = ({initialActions, flashcards, currentUser, decks, users}) => {
-	
+const mapStateToProps = ({ initialActions, flashcards, currentUser, decks, users}) => {
+	const q = flashcards[initialActions.currentFlashcard].question
+	const correct = q.answer === initialActions.currentAnswer
+	const answer = q.options[currentAnswer]
 	return {
-		flashcards,
-		currentFlashcard,
-		initialActions,
+		correct,
+		answer,
 	}
 }
 
 const mapDispatchToProps = dispatch => {
 	return{
-		_nextFlashcard : flashcard => console.log('todo next flashcard'),
+		_nextFlashcard : _ => dispatch(goNextFlashcard()),
 	}
 }
-export default connect(mapStateToProps)(Answer)
+export default connect(mapStateToProps,mapDispatchToProps)(Answer)

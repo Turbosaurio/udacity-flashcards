@@ -11,6 +11,7 @@ import {
 	goNextFlashcard,
 	resetInitialSettings,
 	addCorrectAnswer,
+	addUserAnswer,
 } from '../redux/actions/initialActions'
 
 class Question extends Component{
@@ -21,11 +22,12 @@ class Question extends Component{
 		const {total, initialActions} = this.props
 		const {currentFlashcard} = initialActions
 
+		this.props.navigation.navigate('Answer')
+		this.props._correctAnswer(answer)
+		
 		if(currentFlashcard < total){
-			this.props._nextQuestion()
-			this.props.navigation.navigate('Answer')
+			// this.props._nextQuestion()
 			if(answer){
-				this.props._correctAnswer()
 			}
 		} else {
 			this.props.navigation.navigate('Results')
@@ -48,7 +50,7 @@ class Question extends Component{
 								<TouchableOpacity
 									style={styles.blueButton}
 									onPress={ _ => {
-										this._handleNavigation(i ===flashcard.question.answer )
+										this._handleNavigation(i === flashcard.question.answer )
 									}}
 									>
 									<Text style={styles.buttonText}>{flashcard.question.options[i]}</Text>
@@ -70,8 +72,9 @@ const mapDispatchToProps = dispatch =>{
 			dispatch(goNextFlashcard(next))
 		},
 		
-		_correctAnswer: _ => {
+		_correctAnswer: answer => {
 			dispatch(addCorrectAnswer())
+			dispatch(addUserAnswer(answer))
 		}
 	}
 }

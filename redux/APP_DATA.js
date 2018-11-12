@@ -137,8 +137,8 @@ export function formatFlashcard(data){
 			id,
 			name,
 			answer,
-			category,
 			question: {
+				category,
 				text, options
 			},
 		}

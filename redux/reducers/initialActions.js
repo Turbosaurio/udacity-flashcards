@@ -4,6 +4,7 @@ import {
 	SET_CURRENT_FLASHCARD,
 	NEXT_FLASHCARD,
 	ADD_CORRECT_ANSWER,
+	ADD_USER_ANSWER,
 	RESET_INITIAL_SETTINGS, initialSettings
 } from '../actions/initialActions'
 
@@ -13,6 +14,11 @@ export default function initialActions ( state = {}, action){
 			return{
 				...state,
 				...action.val
+			}
+		case ADD_USER_ANSWER:
+			return{
+				...state,
+				currentAnswer: action.val
 			}
 		case SET_CURRENT_DECK:
 			return{
@@ -37,7 +43,7 @@ export default function initialActions ( state = {}, action){
 		case RESET_INITIAL_SETTINGS:
 			return{
 				...state,
-				initialSettings
+				...initialSettings
 			}
 		default: return state
 	}

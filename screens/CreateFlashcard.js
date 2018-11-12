@@ -37,11 +37,11 @@ class CreateFlashcard extends Component{
 		///todo add new question to store
 		const {
 			setCategory, btnMessage, options, defaultCategory, ///unused
-			name, question, answer, category, ...rest
+			name, question, answer,  ...rest
 		} = this.state
 		const data = {
 			name,
-			category,
+			category: this.props.deckName,
 			text: question,
 			options: rest,
 			answer,
@@ -78,7 +78,7 @@ class CreateFlashcard extends Component{
 
 		const {
 			name, 
-			category,
+			
 			question, 
 
 			options, 
@@ -89,7 +89,7 @@ class CreateFlashcard extends Component{
 
 		return(
 			<View style={{padding: 25}}>
-				<Text style={styles.h1}>Create Flashcard</Text>
+				<Text style={styles.h1}>{`Create a flashcard in category: ${this.props.deckName}`}</Text>
 				<View style={styles.box}>
 					<View style={styles.row}>
 						<Text>Name: </Text>
@@ -98,37 +98,6 @@ class CreateFlashcard extends Component{
 							style={styles.textInput}
 							value={name}
 						/>
-					</View>
-
-					<View style={styles.row}>
-						{ 
-							!setCategory 
-							?(
-								<Fragment>
-									<Text>Category: </Text>
-									<TextInput
-										 onChangeText={category => this.setState({category})}
-										style={styles.textInput}
-										value={category}
-									/>
-									<View style={{width: 50, marginLeft: 15}}>
-										<Button
-											onPress={this.showPicker}
-											style={{borderRadius: 25}}
-											title="+"
-										/>
-									</View>	
-								</Fragment>
-								) 
-							: (
-								<Picker
-									selectedValue={this.state.defaultCategory}
-									>
-									<Picker.Item disabled="true" value="Choose" label="Choose a category"/>
-									<Picker.Item value="Art" label="Art"/>
-								</Picker>
-								)
-						}
 					</View>
 
 					<View style={styles.row}>
@@ -187,7 +156,13 @@ class CreateFlashcard extends Component{
 	}
 }
 
-
+const mapStateToProps = ({decks, initialActions}) => {
+	const deck = initialActions.currentDeck
+	return { 
+		deckId: deck,
+		deckName: decks[deck].category
+	}
+}
 
 const mapDispatchToProps = dispatch =>{
 	return{
@@ -197,4 +172,4 @@ const mapDispatchToProps = dispatch =>{
 	}
 }
 
-export default  connect(null, mapDispatchToProps)(CreateFlashcard)
+export default  connect(mapStateToProps, mapDispatchToProps)(CreateFlashcard)

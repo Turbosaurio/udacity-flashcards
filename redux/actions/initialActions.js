@@ -6,6 +6,7 @@ export const SET_CURRENT_FLASHCARD = 'SET_CURRENT_FLASHCARD'
 export const NEXT_FLASHCARD = 'NEXT_FLASHCARD'
 export const RESET_INITIAL_SETTINGS = 'RESET_INITIAL_SETTINGS'
 export const ADD_CORRECT_ANSWER = 'ADD_CORRECT_ANSWER'
+export const ADD_USER_ANSWER = 'ADD_USER_ANSWER'
 
 export function getInitialActions (val){
 	return {
@@ -43,5 +44,12 @@ export function resetInitialSettings(){
 export function addCorrectAnswer(){
 	return{
 		type: ADD_CORRECT_ANSWER,
+	}
+}
+
+export function addUserAnswer(val){
+	return{
+		type: ADD_CORRECT_ANSWER,
+		val
 	}
 }

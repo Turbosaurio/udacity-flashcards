@@ -3,7 +3,6 @@
 
 import React, {Component, Fragment} from 'react';
 import {handleInitialData} from '../redux/actions/shared'
-import Flashcard from './Flashcard'
 
 import {styles} from '../styles/stylingus'
 import {setCurrentDeck, setCurrentFlashcard} from '../redux/actions/initialActions'
@@ -59,7 +58,7 @@ class Decks extends Component {
 											onPress={ _ => {
 													_setCurrentDeck(deck.id)
 													_setCurrentFlashcard(flashcard)
-													navigation.navigate('Flashcard')
+													navigation.navigate('Deck')
 												}
 											}
 										><Text style={styles.buttonText}>{`Go to ${deck.category}`}</Text></TouchableOpacity>

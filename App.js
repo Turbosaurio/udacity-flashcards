@@ -1,12 +1,14 @@
 import React, {Component} from 'react'
 import { Platform, StatusBar, StyleSheet, View } from 'react-native'
 import { AppLoading, Asset, Font, Icon } from 'expo'
-import AppNavigator from './navigation/AppNavigator'
+// import AppNavigator from './navigation/AppNavigator'
 
 import {Provider} from 'react-redux'
 import {createStore} from 'redux'
 import reducer from './redux/reducers'
 import middleware from './redux/middleware'
+
+import Start from './screens/Start'
 
 const store = createStore(reducer, middleware)
 
@@ -29,7 +31,7 @@ export default class App extends Component {
         <Provider store={store}>
           <View style={styles.container}>
             {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-            <AppNavigator />
+            <Start/>
           </View>
         </Provider>
       )
