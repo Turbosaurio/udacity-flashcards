@@ -7,6 +7,7 @@ const flashcards = {
 			options:{
 				optionA: 'Berlin',
 				optionB: 'Munich',
+				optionC: '',
 			},
 			answer: 'optionA',
 		},

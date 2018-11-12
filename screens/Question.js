@@ -17,21 +17,12 @@ import {
 class Question extends Component{
 	state = {}
 
-	_handleNavigation = answer =>{
+	_handleNavigation = (answer, i) =>{
 
 		const {total, initialActions} = this.props
 		const {currentFlashcard} = initialActions
-
-		this.props.navigation.navigate('Answer')
-		this.props._correctAnswer(answer)
-		
-		if(currentFlashcard < total){
-			// this.props._nextQuestion()
-			if(answer){
-			}
-		} else {
-			this.props.navigation.navigate('Results')
-		}
+		this.props._correctAnswer(i)
+		this.props.navigation.navigate('Answer')	
 	}
 
 	render(){
@@ -45,18 +36,21 @@ class Question extends Component{
 				<Text style={styles.h3}>{`${flashcard.question.text}?`}</Text>
 				<View style={styles.buttonRow}>
 					{
-						Object.keys(flashcard.question.options).filter( i => i !== '').map( i => (
-							<View key={i} >
-								<TouchableOpacity
-									style={styles.blueButton}
-									onPress={ _ => {
-										this._handleNavigation(i === flashcard.question.answer )
-									}}
-									>
-									<Text style={styles.buttonText}>{flashcard.question.options[i]}</Text>
-								</TouchableOpacity>
-							</View>
-						))
+						Object.keys(flashcard.question.options)
+							.filter( i => flashcard.question.options[i] !== '')
+							.map( i => (
+								<View key={i} >
+									<TouchableOpacity
+										style={styles.blueButton}
+										onPress={ _ => {
+											this._handleNavigation(i === flashcard.question.answer, i )
+										}}
+										>
+										<Text style={styles.buttonText}>{flashcard.question.options[i]}</Text>
+										<Text>{i}</Text>
+									</TouchableOpacity>
+								</View>
+							))
 					}
 				</View>
 			</View>

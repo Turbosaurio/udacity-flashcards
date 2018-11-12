@@ -18,7 +18,7 @@ export default function initialActions ( state = {}, action){
 		case ADD_USER_ANSWER:
 			return{
 				...state,
-				currentAnswer: action.val
+				userAnswer: action.val
 			}
 		case SET_CURRENT_DECK:
 			return{
@@ -38,7 +38,7 @@ export default function initialActions ( state = {}, action){
 		case ADD_CORRECT_ANSWER:
 			return{
 				...state,
-				correctAnswer : state.correctAnswer + 1
+				correctAnswers : state.correctAnswer + 1
 			}
 		case RESET_INITIAL_SETTINGS:
 			return{
