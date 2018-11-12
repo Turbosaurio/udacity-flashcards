@@ -15,6 +15,11 @@ import {formatFlashcard} from '../redux/APP_DATA'
 import {addFlashcard} from '../redux/actions/flashcards'
 
 class CreateFlashcard extends Component{
+
+	static navigationOptions = {
+		title: 'Create New',
+	}
+
 	state = {
 		name: '',
 		question: '',

@@ -10,39 +10,50 @@ import {
 	TouchableOpacity
 } from 'react-native'
 
-function Answer({navigation, correct, answer, _nextFlashcard}){
-	return (
-		<View	style={styles.centerContainer}>
-		
-			<View style={styles.buttonRow}>
-				<Text>{`Your answer was: ${answer} and it was ${correct}`}</Text>
-					<TouchableOpacity
-						style={styles.blueButton}
-						onPress={ _ => {
-								_nextFlashcard
-								navigation.navigate('Question')
-						}}
-					>
-						<Text style={styles.buttonText}>Next Question</Text>
-					</TouchableOpacity>
-			</View>
-		</View>
+const ViewResults = props =>{
+	return(
+		<TouchableOpacity
+			style={styles.blueButton}
+			onPress={props.action}
+		>
+			<Text style={styles.buttonText}>View Results</Text>
+		</TouchableOpacity>
 	)
 }
 
-const mapStateToProps = ({ initialActions, flashcards, currentUser, decks, users}) => {
-	const q = flashcards[initialActions.currentFlashcard].question
-	const correct = q.answer === initialActions.currentAnswer
-	const answer = q.options[currentAnswer]
+const NextQuestion = props =>{
+	return(
+		<TouchableOpacity
+			style={styles.blueButton}
+			onPress={props.action}
+		>
+			<Text style={styles.buttonText}>Next Question</Text>
+		</TouchableOpacity>
+	)
+}
+
+function Answer({navigation}){
+	return (
+		<View	style={styles.centerContainer}>
+			<Text style={styles.h3}>Results</Text>
+			<View style={styles.buttonRow}>
+				<NextQuestion action={_ => navigation.navigate('Question')}/>
+				<ViewResults action={_ => navigation.navigate('Results')}/>
+			</View>
+		</View>
+	) 
+}
+
+const mapStateToProps = ({ initialActions, flashcards, decks}) => {
+
 	return {
-		correct,
-		answer,
+		
 	}
 }
 
 const mapDispatchToProps = dispatch => {
 	return{
-		_nextFlashcard : _ => dispatch(goNextFlashcard()),
+		_nextFlashcard : data => dispatch(goNextFlashcard(data)),
 	}
 }
-export default connect(mapStateToProps,mapDispatchToProps)(Answer)
+export default connect(mapDispatchToProps)(Answer)

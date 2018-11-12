@@ -64,9 +64,9 @@ export const styles = StyleSheet.create({
 		flexWrap: 'wrap',
 	},
 	centerContainer:{
-		alignItems: 'center',
-		justifyContent: 'center',
-		padding: 25,
+		alignItems: center,
+		justifyContent: center,
+		padding: 50,
 	},
 	blueButton:{
 		backgroundColor: blue,

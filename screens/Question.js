@@ -10,19 +10,24 @@ import {connect} from 'react-redux'
 import {
 	goNextFlashcard,
 	resetInitialSettings,
-	addCorrectAnswer,
-	addUserAnswer,
 } from '../redux/actions/initialActions'
 
 class Question extends Component{
 	state = {}
 
-	_handleNavigation = (answer, i) =>{
+	_handleAnswer = (answer, option) =>{
 
 		const {total, initialActions} = this.props
-		const {currentFlashcard} = initialActions
-		this.props._correctAnswer(i)
-		this.props.navigation.navigate('Answer')	
+		const {correctAnswers, flashcardIndex} = initialActions
+
+		const data = {
+			correctAnswers : answer ? correctAnswers + 1 : correctAnswers,
+			flashcardIndex : flashcardIndex + 1,
+			userAnswer : option,
+		}
+
+		this.props._nextQuestion(data)
+		this.props.navigation.navigate('Answer')
 	}
 
 	render(){
@@ -43,7 +48,7 @@ class Question extends Component{
 									<TouchableOpacity
 										style={styles.blueButton}
 										onPress={ _ => {
-											this._handleNavigation(i === flashcard.question.answer, i )
+											this._handleAnswer(i === flashcard.question.answer, i)
 										}}
 										>
 										<Text style={styles.buttonText}>{flashcard.question.options[i]}</Text>
@@ -60,24 +65,21 @@ class Question extends Component{
 
 }
 
-const mapDispatchToProps = dispatch =>{
-	return{
-		_nextQuestion : next => {
-			dispatch(goNextFlashcard(next))
-		},
-		
-		_correctAnswer: answer => {
-			dispatch(addCorrectAnswer())
-			dispatch(addUserAnswer(answer))
-		}
-	}
-}
 
 const mapStateToProps = ({ decks, flashcards, initialActions}) =>{
 	return{
 		flashcards, 
 		initialActions,
 		total : decks[initialActions.currentDeck].flashcards.length
+	}
+}
+
+
+const mapDispatchToProps = dispatch =>{
+	return{
+		_nextQuestion : meme => {
+			dispatch(goNextFlashcard(meme))
+		},
 	}
 }
 

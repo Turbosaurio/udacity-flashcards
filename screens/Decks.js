@@ -1,24 +1,17 @@
-// import { WebBrowser } from 'expo';
-// import { MonoText } from '../components/StyledText';
-
-import React, {Component, Fragment} from 'react';
+import React, {Component} from 'react';
 import {handleInitialData} from '../redux/actions/shared'
 
 import {styles} from '../styles/stylingus'
-import {setCurrentDeck, setCurrentFlashcard} from '../redux/actions/initialActions'
+import {setCurrentDeck} from '../redux/actions/initialActions'
 
 import {
-	Image,
-	Platform,
-	ScrollView,
-	StyleSheet,
+	View,
 	Text,
 	TouchableOpacity,
-	View,
 } from 'react-native';
 import {connect} from 'react-redux'
 
-
+import {RedButton, ButtonsRow} from '../common_assets/buttons'
 
 class Decks extends Component {
 	static navigationOptions = {
@@ -29,6 +22,13 @@ class Decks extends Component {
 		this.props._getData()
   }
 
+
+
+  handleDeckSelect(id){
+  		this.props._setCurrentDeck(id)
+  		this.props.navigation.navigate('Deck')
+  }
+
 	render() {
 
 		const {
@@ -36,7 +36,7 @@ class Decks extends Component {
 			currentUser,
 			navigation,
 			_setCurrentDeck,
-			_setCurrentFlashcard,
+			screenProps
 		} = this.props
 	
 		if(!currentUser){
@@ -46,27 +46,21 @@ class Decks extends Component {
 			<View>
 				<View style={styles.centerContainer}>
 					<Text style={styles.h1}>Choose a Deck</Text>
-					<View style={styles.buttonRow}>
+					<ButtonsRow>
 						{
 							Object.keys(decks).map( i => {
 								const deck = decks[i]
-								const flashcard = decks[deck.id].flashcards[0]
 								return (
 									<View key={i}>
-										<TouchableOpacity
-											style={styles.redButton}
-											onPress={ _ => {
-													_setCurrentDeck(deck.id)
-													_setCurrentFlashcard(flashcard)
-													navigation.navigate('Deck')
-												}
-											}
-										><Text style={styles.buttonText}>{`Go to ${deck.category}`}</Text></TouchableOpacity>
+										<RedButton 
+											action={_ => this.handleDeckSelect(deck.id)} 
+											label={`Go to ${deck.category}`} 
+										/>
 									</View>
 								)
 							})
 						}
-					</View>
+					</ButtonsRow>
 				</View>
 			</View>
 		);
@@ -81,7 +75,7 @@ const mapDispatchToProps = (dispatch) => {
 	return{
 		_getData : _ => dispatch(handleInitialData()),
 		_setCurrentDeck : deck => dispatch(setCurrentDeck(deck)),
-		_setCurrentFlashcard: flashcard => dispatch(setCurrentFlashcard(flashcard)),
+		
 	}
 }
 
