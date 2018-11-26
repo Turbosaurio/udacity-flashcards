@@ -21,7 +21,7 @@ export function BlueButton ({action, label}){
 	return(
 		<TouchableOpacity
 			onPress={action}
-			style={styles.redButton}
+			style={styles.blueButton}
 		>
 			<Text style={styles.buttonText}>{label}</Text>
 		</TouchableOpacity>

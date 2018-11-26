@@ -1,9 +1,10 @@
 import {
 	GET_INITIAL_ACTIONS,
 	SET_CURRENT_DECK,
-	SET_CURRENT_FLASHCARD,
 	NEXT_FLASHCARD,
-	RESET_INITIAL_SETTINGS, initialSettings
+	ADD_CORRECT_ANSWER,
+	SAVE_LAST_ANSWER,
+	RESET_INITIAL_SETTINGS,
 } from '../actions/initialActions'
 
 export default function initialActions ( state = {}, action){
@@ -21,24 +22,31 @@ export default function initialActions ( state = {}, action){
 				currentDeck: action.val
 			}
 
-		case SET_CURRENT_FLASHCARD:
-			return{
-				...state,
-				currentFlashcard: action.val
-			}
-
 		case RESET_INITIAL_SETTINGS:
 			return{
 				...state,
-				...initialSettings
+				currentDeck : '',
+				lastAnswer: '',
+				flashcardIndex : 0,
+				correctAnswers : 0,
 			}
 
 		case NEXT_FLASHCARD:
 			return{
 				...state,
-				...action.val,
+				flashcardIndex : state.flashcardIndex + 1
 			}
 
+		case ADD_CORRECT_ANSWER:
+			return{
+				...state,
+				correctAnswers: state.correctAnswers + 1
+			}
+		case SAVE_LAST_ANSWER:
+			return{
+				...state,
+				lastAnswer: action.val
+			}
 		default: return state
 	}
 }

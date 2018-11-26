@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {styles} from '../styles/stylingus'
 import {resetInitialSettings} from '../redux/actions/initialActions'
 
+
 import {
 	View, 
 	Text,
@@ -42,9 +43,7 @@ const mapStateToProps = ({initialActions}) => {
 
 const mapDispatchTopProps = dispatch =>{
 	return{
-		_resetQuestions: _ => {
-			dispatch(resetInitialSettings())
-		},
+		_resetQuestions: _ => dispatch(resetInitialSettings())
 	}
 }
 

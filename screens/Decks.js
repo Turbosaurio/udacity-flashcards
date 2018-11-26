@@ -26,7 +26,7 @@ class Decks extends Component {
 
   handleDeckSelect(id){
   		this.props._setCurrentDeck(id)
-  		this.props.navigation.navigate('Deck')
+  		this.props.navigation.navigate('DeckDetails')
   }
 
 	render() {

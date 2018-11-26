@@ -14,15 +14,13 @@ class DeckDetails extends Component{
 	}
 
 	render(){
-		const {initialActions, decks, navigation, _setCurrentFlashcard} = this.props
-		const deck = decks[initialActions.currentDeck]
+		const {deck, navigation} = this.props
 		return(
 			<View>
 				<Text style={styles.h1}>{deck.category}</Text>
 				<Text style={styles.h3}>{`This deck has ${deck.flashcards.length} cards in it.`}</Text>
 				<TouchableOpacity
 					onPress={ _ => {
-						_setCurrentFlashcard(deck.flashcards[0])
 						navigation.navigate('Question')
 					}}
 					style={styles.blueButton}
@@ -42,12 +40,14 @@ class DeckDetails extends Component{
 
 const mapDispatchToProps = dispatch =>{
 	return {
-		_setCurrentFlashcard: flashcard => dispatch(setCurrentFlashcard(flashcard)),
+		_setCurrentDeck: deck => dispatch(setCurrentDeck(deck)),
 	}
 }
 
 const mapStateToProps = ({initialActions, decks}) => {
-	return {initialActions, decks}
+	const {currentDeck} = initialActions
+	const deck = decks[currentDeck]
+	return { deck }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(DeckDetails)

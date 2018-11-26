@@ -8,32 +8,21 @@ import {
 
 import {connect} from 'react-redux'
 import {
-	goNextFlashcard,
-	resetInitialSettings,
+	saveLastAnswer,
 } from '../redux/actions/initialActions'
 
 class Question extends Component{
 	state = {}
 
 	_handleAnswer = (answer, option) =>{
-
-		const {total, initialActions} = this.props
-		const {correctAnswers, flashcardIndex} = initialActions
-
-		const data = {
-			correctAnswers : answer ? correctAnswers + 1 : correctAnswers,
-			flashcardIndex : flashcardIndex + 1,
-			userAnswer : option,
-		}
-
-		this.props._nextQuestion(data)
 		this.props.navigation.navigate('Answer')
+		this.props._saveLastAnswer(option)
 	}
 
 	render(){
 
-		const {flashcards, initialActions} = this.props
-		const flashcard = flashcards[initialActions.currentFlashcard]
+		
+		const {flashcard} = this.props
 
 		return (
 			<View>
@@ -67,19 +56,28 @@ class Question extends Component{
 
 
 const mapStateToProps = ({ decks, flashcards, initialActions}) =>{
+	const {
+		currentDeck,
+		lastAnswer,
+		flashcardIndex,
+	} = initialActions
+
+	const f = decks[currentDeck].flashcards
+	const last = f.length >= flashcardIndex
+	const flashcard = flashcards[f[flashcardIndex]]
+
 	return{
-		flashcards, 
-		initialActions,
-		total : decks[initialActions.currentDeck].flashcards.length
+		flashcard, 
+		last,
 	}
 }
 
 
 const mapDispatchToProps = dispatch =>{
 	return{
-		_nextQuestion : meme => {
-			dispatch(goNextFlashcard(meme))
-		},
+		_saveLastAnswer: answer => {
+			dispatch(saveLastAnswer(answer))
+		}
 	}
 }
 

@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React from 'react'
 import {View} from 'react-native'
 import {createStackNavigator} from 'react-navigation'
 
@@ -9,51 +9,31 @@ import Question from './Question'
 import Answer from './Answer'
 import Results from './Results'
 
-const Navigation = createStackNavigator (
+export default createStackNavigator (
 	{
 		Decks:{
+			title: 'Decks',
 			screen: Decks,
 		},
-		Deck:{
+		DeckDetails:{
+			title: 'Deck details',
 			screen: DeckDetails,
-
 		},
 		CreateFlashcard:{
+			title: 'Create flashcard',
 			screen: CreateFlashcard,
 		},
 		Question:{
+			title: 'Question',
 			screen: Question
 		},
 		Answer:{
+			title: 'Answer',
 			screen: Answer
 		},
 		Results:{
+			title: 'Results',
 			screen: Results,
 		},
-	},{
-		navigationOptions:{
-			initialRouteName: 'Decks',
-			headerTransitionPreset: 'fade-in-place',
-		}
-
 	}
 )
-
-export default class Start extends Component{
-
-	state = {
-		currentDeck : '',
-		currentFlashcard : '',
-		userAnswer: '',
-		flashcardIndex : 0,
-		correctAnswers : 0,
-	}
-
-	render(){
-
-		const supeprops = {...this.state}
-		return(
-			<Navigation screenProps={supeprops}/>
-		)
-	}
-}

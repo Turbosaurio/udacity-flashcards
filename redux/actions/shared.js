@@ -10,8 +10,7 @@ const current_user = 'don_draper'
 
 export const initialSettings = {
 	currentDeck : '',
-	currentFlashcard : '',
-	userAnswer: '',
+	lastAnswer: '',
 	flashcardIndex : 0,
 	correctAnswers : 0,
 }
